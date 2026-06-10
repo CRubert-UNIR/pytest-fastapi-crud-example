@@ -3,7 +3,7 @@ name: CI - automatización DevOps
 on:
   push:
     branches:
-      - master
+      - devops-ai-testing
 
 jobs:
   tests-minimum:
