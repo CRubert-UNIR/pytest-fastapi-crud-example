@@ -3,7 +3,6 @@ name: CI - automatización DevOps
 on:
   push:
     branches:
-      - devops-ai-testing
 
 jobs:
   tests-minimum:
@@ -29,3 +28,31 @@ jobs:
 
       - name: Run tests with pytest
         run: pytest -q
+
+  coverage-minimum:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Upgrade pip
+        run: pip install --upgrade pip
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          if [ -f requirements-dev.txt ]; then
+            pip install -r requirements-dev.txt
+          fi
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=app --cov-report term-missing --cov-fail-under=70
