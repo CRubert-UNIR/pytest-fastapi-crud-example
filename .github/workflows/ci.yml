@@ -3,6 +3,7 @@ name: CI - automatización DevOps
 on:
   push:
     branches:
+      - "**"
 
 jobs:
   tests-minimum:
@@ -49,10 +50,13 @@ jobs:
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
+
+      - name: Install development dependencies
+        run: |
           if [ -f requirements-dev.txt ]; then
             pip install -r requirements-dev.txt
           fi
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=app --cov-report term-missing --cov-fail-under=70
+          pytest --cov=app --cov-report=term-missing --cov-fail-under=70
